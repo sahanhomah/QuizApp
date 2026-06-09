@@ -1,0 +1,26 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+<div class="card">
+    <p class="muted">Question {{ current_number }} of {{ total_questions }}</p>
+    <h2>{{ question.text }}</h2>
+
+    <form method="post" action="{% url 'quiz:submit_answer' %}">
+        {% csrf_token %}
+        <div class="options">
+            {% for value, label in answer_choices %}
+                <label class="option">
+                    <input type="radio" name="selected_option" value="{{ value }}" {% if existing_answer and existing_answer.selected_option == value %}checked{% endif %} required>
+                    <strong>{{ value }}.</strong>
+                    {% if value == 'A' %}{{ question.option_a }}{% endif %}
+                    {% if value == 'B' %}{{ question.option_b }}{% endif %}
+                    {% if value == 'C' %}{{ question.option_c }}{% endif %}
+                    {% if value == 'D' %}{{ question.option_d }}{% endif %}
+                </label>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="button">Submit Answer</button>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+<div class="card">
+    <h1>Quiz Web Application</h1>
+    <p class="muted">Login or create an account to start a quiz, save your attempts, and see your results.</p>
+
+    <div style="display:flex; gap:12px; flex-wrap:wrap; margin-top:20px;">
+        <a class="button" href="{% url 'login' %}">Login</a>
+        <a class="button" href="{% url 'quiz:register' %}">Register</a>
+    </div>
+</div>
+{% endblock %}

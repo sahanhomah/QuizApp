@@ -1,0 +1,23 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+<div class="card">
+    <h1>Quiz Web Application</h1>
+    <p class="muted">Start a new game with exactly 20 random multiple-choice questions.</p>
+    <p>Available questions in the database: <strong>{{ question_count }}</strong></p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div style="margin: 16px 0 20px;">
+            <label for="category" style="display:block; font-weight:700; margin-bottom:8px;">Category</label>
+            <select id="category" name="category" style="width:100%; padding:12px 14px; border:1px solid var(--border); border-radius:10px; background:#fff;">
+                <option value="">All categories</option>
+                {% for category in categories %}
+                    <option value="{{ category }}">{{ category }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="button">Start Quiz</button>
+    </form>
+</div>
+{% endblock %}

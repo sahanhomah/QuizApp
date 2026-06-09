@@ -1,0 +1,18 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+<div class="card">
+    <h1>Leaderboard</h1>
+    <p class="muted">Top quiz attempts ranked by score.</p>
+
+    {% for attempt in attempts %}
+        <div class="summary-item">
+            <h3>#{{ forloop.counter }} - Score {{ attempt.score }}</h3>
+            <p>User: <strong>{{ attempt.user|default:"Guest" }}</strong></p>
+            <p>Completed: <strong>{{ attempt.created_at }}</strong></p>
+        </div>
+    {% empty %}
+        <p>No quiz attempts yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

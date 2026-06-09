@@ -1,0 +1,12 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+<div class="card">
+    <h1>Register</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="button">Create Account</button>
+    </form>
+</div>
+{% endblock %}

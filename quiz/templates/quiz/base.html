@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Web App</title>
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #f5f7fb;
+            --surface: #ffffff;
+            --text: #1f2937;
+            --muted: #6b7280;
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --border: #dbe3f0;
+            --correct: #166534;
+            --wrong: #b91c1c;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(180deg, #eef2ff 0%, var(--bg) 45%, #ffffff 100%);
+            color: var(--text);
+        }
+
+        .container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 32px 20px 56px;
+        }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.06);
+        }
+
+        h1, h2, h3 { margin-top: 0; }
+
+        .muted { color: var(--muted); }
+
+        .button {
+            display: inline-block;
+            border: 0;
+            border-radius: 10px;
+            padding: 12px 18px;
+            background: var(--primary);
+            color: white;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .button:hover { background: var(--primary-dark); }
+
+        .notice {
+            margin: 0 0 16px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+        }
+
+        .error { background: #fef2f2; border-color: #fecaca; color: var(--wrong); }
+        .success { background: #f0fdf4; border-color: #bbf7d0; color: var(--correct); }
+
+        .options {
+            display: grid;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        .option {
+            display: block;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+            background: #f9fafb;
+        }
+
+        .option input { margin-right: 10px; }
+
+        .summary-item {
+            border-top: 1px solid var(--border);
+            padding-top: 16px;
+            margin-top: 16px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .topbar a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="topbar">
+            <a href="{% url 'quiz:start' %}">Start Quiz</a>
+            <a href="{% url 'quiz:leaderboard' %}">Leaderboard</a>
+            {% if user.is_authenticated %}
+                <span class="muted">Logged in as {{ user.username }}</span>
+                <form method="post" action="{% url 'logout' %}" style="display:inline; margin:0;">
+                    {% csrf_token %}
+                    <button type="submit" class="button" style="padding:8px 12px;">Logout</button>
+                </form>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'quiz:register' %}">Register</a>
+            {% endif %}
+        </div>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="notice{% if message.tags %} {{ message.tags }}{% endif %}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

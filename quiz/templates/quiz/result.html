@@ -1,0 +1,27 @@
+{% extends 'quiz/base.html' %}
+
+{% block content %}
+<div class="card">
+    <h1>Quiz Result</h1>
+    <p class="muted">Final score for attempt #{{ attempt.id }}</p>
+    <h2>{{ score }} / {{ total_questions }}</h2>
+
+    <div class="summary-item">
+        {% for item in summary %}
+            <div class="summary-item">
+                <h3>Question {{ forloop.counter }} - {{ item.question.category }}</h3>
+                <p>{{ item.question.text }}</p>
+                <p>Your answer: <strong>{{ item.selected_answer_text }}</strong></p>
+                <p>Correct answer: <strong>{{ item.correct_answer_text }}</strong></p>
+                <p class="{% if item.is_correct %}success{% else %}error{% endif %}">
+                    {% if item.is_correct %}Correct{% else %}Incorrect{% endif %}
+                </p>
+            </div>
+        {% empty %}
+            <p>No answers were recorded for this attempt.</p>
+        {% endfor %}
+    </div>
+
+    <p><a class="button" href="{% url 'quiz:start' %}">Start New Quiz</a></p>
+</div>
+{% endblock %}
